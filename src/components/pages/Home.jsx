@@ -9,10 +9,8 @@ import {
 const Home = () => {
     return (
         <Container>
-            <Row>
-                <Col sm={4} xs={1}>
-                    <NewsCard />
-                </Col>
+            <Row className='g-4'>
+                <NewsCard />
             </Row>
         </Container>
     )
