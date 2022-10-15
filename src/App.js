@@ -1,8 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-import {NavbarApp, NewsCard} from './components/organisms';
+import {NavbarApp, NewsCard, NewsProgramming, NewsCovid} from './components/organisms';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Home} from './components/pages';
+import {Covid, Home, Programming} from './components/pages';
 import {
   Routes,
   Route
@@ -15,6 +15,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/programming" element={<Programming />} />
+        <Route path="/covid" element={<Covid />} />
       </Routes>
     </div>
   );
