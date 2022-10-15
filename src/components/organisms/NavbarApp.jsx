@@ -28,8 +28,8 @@ const NavbarApp = () => {
                 <MobileCollapse className='d-flex justify-content-around'>
                     <ResponsiveNav>
                         <Nav.Link>Indonesia</Nav.Link>
-                        <Nav.Link>Programming</Nav.Link>
-                        <Nav.Link>COVID-19</Nav.Link>
+                        <Nav.Link href="/programming">Programming</Nav.Link>
+                        <Nav.Link href="/covid">COVID-19</Nav.Link>
                         <Nav.Link>Saved</Nav.Link>
                     </ResponsiveNav>
                     <Search />
