@@ -5,6 +5,7 @@ import {
     Container
 } from 'react-bootstrap'
 import styled from 'styled-components'
+import {Link} from 'react-router-dom';
 
 const ResponsiveNav = styled(Nav)`
     display: flex;
@@ -27,9 +28,9 @@ const NavbarApp = () => {
             <Container fluid>
                 <MobileCollapse className='d-flex justify-content-around'>
                     <ResponsiveNav>
-                        <Nav.Link>Indonesia</Nav.Link>
-                        <Nav.Link href="/programming">Programming</Nav.Link>
-                        <Nav.Link href="/covid">COVID-19</Nav.Link>
+                        <Nav.Link as={Link} to='/'>Indonesia</Nav.Link>
+                        <Nav.Link as={Link} to="/programming">Programming</Nav.Link>
+                        <Nav.Link as={Link} to="/covid">COVID-19</Nav.Link>
                         <Nav.Link>Saved</Nav.Link>
                     </ResponsiveNav>
                     <Search />

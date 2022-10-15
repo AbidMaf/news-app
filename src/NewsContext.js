@@ -1,41 +1,46 @@
-import {createContext, useContext, useState, useEffect} from 'react'
+import { useEffect, useState, createContext, useContext, useMemo } from "react";
+import axios from 'axios'
+import { useLocation } from "react-router-dom";
 
-const APIContext = createContext()
+export const NewsContext = createContext(null);
+export const NewsURL = createContext(null);
 
-function NewsContextProvider({children}) {
-    const [isLoading, setIsLoading] = useState(false)
-    const [data, setData] = useState([])
+const NewsContextProvider = ({children}) => {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const url = 'https://newsapi.org/v2/everything?q=bitcoin&apiKey=6c8c55f07ec642d7b968deb80f117e24'
+    const location = useLocation();
+    console.log('location ', location);
 
-    useEffect(() => {
-        setIsLoading(true)
-        fetch(url)
-        .then(response => response.json())
-        .then(json => {
-            setData(json.articles);
-            setIsLoading(false);
+    var url = 'https://newsapi.org/v2/everything?q=programming+AND+code+AND+developer+OR+dev&searchin=title&apiKey=6f8a7aa368ce4ade956a2f95d689eddc';
+    if(location.pathname === '/programming'){
+        url = 'https://newsapi.org/v2/everything?q=programming+AND+code&apiKey=6f8a7aa368ce4ade956a2f95d689eddc';
+    } else if(location.pathname === '/covid'){
+        url = 'https://newsapi.org/v2/everything?q=covid-19&searchin=title&sortBy=publishedAt&apiKey=6c8c55f07ec642d7b968deb80f117e24';
+    } else if(location.pathname === '/home' || location.pathname === '/'){
+        url = 'https://newsapi.org/v2/top-headlines?country=id&apiKey=6c8c55f07ec642d7b968deb80f117e24'
+    }
+
+    useEffect(() => { 
+        // fetchNews()
+        if (!data) return
+        axios.get(url)
+        .then((res) => {
+            setData(res.data.articles)
+            setLoading(false)
+            console.log(res.data.articles)
         })
-        .catch(error => {
-            setIsLoading(false)
-        })
+        .catch((err) => console.log('error ', err))
+        // setData(data) 
     }, [])
-
-    console.log('data1: ', data)
-
+     
+    // debugger
+    // console.log('data1 ', data) 
     return (
-        <APIContext.Provider value={{data, isLoading}}>
+        <NewsContext.Provider value={{ data, loading }}>
             {children}
-        </APIContext.Provider>
+        </NewsContext.Provider>
     )
 }
 
-export default NewsContextProvider;
-
-export function useNewsContext() {
-    const context = useContext(APIContext)
-    if(context == undefined) {
-        throw new Error('useNewsContext must be used within NewsContextProvider')
-    }
-    return context
-}
+export default NewsContextProvider
