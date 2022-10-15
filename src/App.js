@@ -7,16 +7,19 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
+import NewsContextProvider from './NewsContext';
 
 function App() {
   return (
-    <div className="App">
-      <NavbarApp />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-      </Routes>
-    </div>
+    <NewsContextProvider>
+      <div className="App">
+        <NavbarApp />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+        </Routes>
+      </div>
+    </NewsContextProvider>
   );
 }
 
