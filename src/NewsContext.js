@@ -1,6 +1,7 @@
 import { useEffect, useState, createContext, useContext, useMemo } from "react";
 import axios from 'axios'
 import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 export const NewsContext = createContext(null);
 export const NewsURL = createContext(null);
@@ -8,6 +9,7 @@ export const NewsURL = createContext(null);
 const NewsContextProvider = ({children}) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchParams] = useSearchParams();
 
     const location = useLocation();
     console.log('location ', location);
@@ -19,6 +21,9 @@ const NewsContextProvider = ({children}) => {
         url = 'https://newsapi.org/v2/everything?q=covid-19&searchin=title&sortBy=publishedAt&apiKey=6c8c55f07ec642d7b968deb80f117e24';
     } else if(location.pathname === '/home' || location.pathname === '/'){
         url = 'https://newsapi.org/v2/top-headlines?country=id&apiKey=6c8c55f07ec642d7b968deb80f117e24'
+    } else if(location.pathname === '/search'){
+        const keyword = searchParams.get('query');
+        url = `https://newsapi.org/v2/everything?q=${keyword}&apiKey=6c8c55f07ec642d7b968deb80f117e24`
     }
 
     useEffect(() => { 
