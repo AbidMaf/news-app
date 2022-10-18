@@ -5,7 +5,7 @@ import {
     Row,
     Col
 } from 'react-bootstrap';
-import NewsContextProvider, {NewsURL} from '../../NewsContext';
+import NewsContextProvider, {NewsURL} from '../../context/NewsContext';
 const PageTitle = styled.h1`
     text-align: center;
     margin: 1.5rem 0;

@@ -5,7 +5,7 @@ import {
     Row,
     Col
 } from 'react-bootstrap';
-import NewsContextProvider, {NewsURL} from '../../NewsContext';
+import NewsContextProvider, {NewsURL} from '../../context/NewsContext';
 import {useEffect, useState, useContext} from 'react';
 
 const PageTitle = styled.h1`

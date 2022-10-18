@@ -31,7 +31,7 @@ const NavbarApp = () => {
                         <Nav.Link as={Link} to='/'>Indonesia</Nav.Link>
                         <Nav.Link as={Link} to="/programming">Programming</Nav.Link>
                         <Nav.Link as={Link} to="/covid">COVID-19</Nav.Link>
-                        <Nav.Link>Saved</Nav.Link>
+                        <Nav.Link as={Link} to="/saved">Saved</Nav.Link>
                     </ResponsiveNav>
                     <Search />
                 </MobileCollapse>

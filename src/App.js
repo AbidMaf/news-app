@@ -2,12 +2,12 @@ import logo from './logo.svg';
 import './App.css';
 import {NavbarApp, NewsCard, NewsProgramming, NewsCovid} from './components/organisms';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Covid, Home, Programming, SearchPage} from './components/pages';
+import {Covid, Home, Programming, SearchPage, SavedNews} from './components/pages';
 import {
   Routes,
   Route
 } from 'react-router-dom';
-import NewsContextProvider from './NewsContext';
+import NewsContextProvider from './context/NewsContext';
 
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
         <Route path="/programming" element={<Programming />} />
         <Route path="/covid" element={<Covid />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/saved" element={<SavedNews />} />
       </Routes>
     </div>
   );

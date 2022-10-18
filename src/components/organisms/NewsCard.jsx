@@ -7,7 +7,7 @@ import {
 } from 'react-bootstrap';
 import styled from 'styled-components';
 import React, {useState, useEffect, useContext} from 'react';
-import { NewsContext } from '../../NewsContext';
+import { NewsContext } from '../../context/NewsContext';
 import { FiBookmark } from 'react-icons/fi';
 
 const ThumbnailOverlay = styled.div`
@@ -21,17 +21,35 @@ const ThumbnailOverlay = styled.div`
 
 const NewsCard = () => {
     var [loading, setLoading] = useState(true);
-    var {data, loading} = useContext(NewsContext);
-    console.log('loading ', loading)
+    var {data, loading, saveNews, archived} = useContext(NewsContext);
+    // console.log('saved ', archived)
+
+    useEffect(() => {
+        
+    }, [data])
+
+    const checkIsSaved = (key) => {
+        var isSaved = false;
+        if(archived != null){
+            archived.filter((val) => {
+                if(key.url === val.url) {
+                    isSaved = true
+                }
+            })
+        }
+        return isSaved
+    }
+
+    // console.log(data)
 
     return (
         <>
             {!loading ? (
-                data.map((item) => (
+                data != null ? (data.map((item) => (
                 <Col sm={4} xs={1}>
                     <Card className="shadow-sm rounded mb-3">
                         <ThumbnailOverlay className='position-absolute top-0 end-0 w-25 h-25 z-0'></ThumbnailOverlay>
-                        <Button className='position-absolute top-0 end-0 me-1 mt-1 z-1' variant='outline-light'>
+                        <Button onClick={() => saveNews(item)} className='position-absolute top-0 end-0 me-1 mt-1 z-1' variant={ checkIsSaved(item) ? 'light' : 'outline-light' }>
                             <FiBookmark />
                         </Button>
                         <Card.Img variant="top" onError={({e}) => {
@@ -48,7 +66,9 @@ const NewsCard = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-            ))
+            ))) : (
+                <h4 className='text-center mt-5'>Tidak ada berita tersimpan</h4>
+            )
             ) : (
                 <Col sm={12} xs={12} className='align-self-center'>
                     <Spinner animation="border" role="status">

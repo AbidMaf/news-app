@@ -5,7 +5,7 @@ import {
     Col
 } from 'react-bootstrap';
 import {NewsCard} from '../organisms';
-import NewsContextProvider from '../../NewsContext';
+import NewsContextProvider from '../../context/NewsContext';
 import { useSearchParams } from "react-router-dom";
 import styled from 'styled-components';
 

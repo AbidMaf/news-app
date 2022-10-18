@@ -3,7 +3,7 @@ import {
     Figure
 } from 'react-bootstrap'
 import React, {useState, useEffect, useContext} from 'react'
-import { NewsContext } from '../../NewsContext';
+import { NewsContext } from '../../context/NewsContext';
 import styled from 'styled-components';
 
 const NewsImage = styled.img`
