@@ -22,7 +22,11 @@ const NewsContextProvider = ({children}) => {
     const saveNews = (news) => {
         // console.log('news ', news)
         var tempNews = JSON.parse(localStorage.getItem('saved'))
-        setSaves(...tempNews)
+        if(tempNews === null){
+            tempNews = []
+        }
+        // debugger
+        setSaves(tempNews) 
         console.log('saves', saves)
         localStorage.setItem('saved', JSON.stringify([...saves, news]))
         // dispatch({
