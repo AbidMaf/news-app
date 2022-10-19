@@ -14,7 +14,7 @@ const PageTitle = styled.h1`
 const Programming = () => {
     return (
         <Container>
-            <PageTitle>Covid-19</PageTitle>
+            <PageTitle>Programming</PageTitle>
             <Row className='g-4'>
                 <NewsContextProvider>
                     <CarouselHighlight />

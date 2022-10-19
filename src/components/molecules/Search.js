@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// import { useDebounce } from 'use-debounce';
 import {
     Button,
     Form,
@@ -13,24 +12,7 @@ const baseUrl = 'https://newsapi.org/v2/everything?q=bitcoin&apiKey=6c8c55f07ec6
 function Search () {
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
-    // const [query] = useDebounce(text, 1000);
     const [news, setNews] = useState([]);
-
-    // useEffect(() => {
-    // async function searchNews() {
-    //     try{
-    //         setLoading(true);
-    //         const response = await window.fetch(`${baseUrl}?q=${query}`);
-    //         const data = await response.json();
-    //         setNews(data.articles)
-    //         setLoading(false);
-    //     }catch(e){
-    //         setLoading(false);
-    //         console.log(e)
-    //     }
-    // }
-    // searchNews()
-    // }, [query])
 
     const navigate = useNavigate()
     const handleSubmit = event => {
