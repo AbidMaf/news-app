@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useLocation } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import AppReducer from './AppReducer'
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
     news: []
@@ -18,33 +19,46 @@ const NewsContextProvider = ({children}) => {
     const [archived ,setArchived] = useState([])
     const [state, dispatch] = useReducer(AppReducer, initialState);
 
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 3500);
+    }, [])
+
+    const savedNews = JSON.parse(localStorage.getItem('saved'))
+    useEffect(() => {
+        if(savedNews == null) {
+            setSaves([])
+        } else{
+            setSaves(savedNews)
+        }
+    }, [])
+
     // console.log('saves ',saves)
     const saveNews = (news) => {
         // console.log('news ', news)
         var tempNews = JSON.parse(localStorage.getItem('saved'))
-        if(tempNews === null){
-            tempNews = []
-        }
         // debugger
-        setSaves(tempNews) 
-        console.log('saves', saves)
-        localStorage.setItem('saved', JSON.stringify([...saves, news]))
-        // dispatch({
-        //     type: 'SAVE_NEWS',
-        //     payload: news
-        // })
+        const id = uuidv4()
+        const newsWithId = {id, ...news}
+        setSaves([...saves, newsWithId])
+        localStorage.setItem('saved', JSON.stringify([...saves, newsWithId]))
+    }
+
+    const deleteNews = (id) => {
+        const tempNews = saves.filter((news) => news.id !== id)
+        setSaves(tempNews)
+        localStorage.setItem('saved', JSON.stringify(tempNews))
     }
 
     const fetchSaved = () => {
-        const saved = JSON.parse(localStorage.getItem('saved'))
         // setData(state.news)
-        setData(saved)
+        setData(savedNews)
         setLoading(false)
     }
 
     const archivedNews = () => {
-        const saved = JSON.parse(localStorage.getItem('saved')) 
-        setArchived(saved)
+        setArchived(savedNews)
         // setArchived(state.news)
     }
 
