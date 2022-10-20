@@ -2,12 +2,7 @@ import { useEffect, useState, createContext, useReducer, useMemo } from "react";
 import axios from 'axios'
 import { useLocation } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
-import AppReducer from './AppReducer'
 import { v4 as uuidv4 } from 'uuid';
-
-const initialState = {
-    news: []
-}
 
 export const NewsContext = createContext(null);
 
@@ -17,7 +12,6 @@ const NewsContextProvider = ({children}) => {
     const [searchParams] = useSearchParams();
     const [saves, setSaves] = useState([])
     const [archived ,setArchived] = useState([])
-    const [state, dispatch] = useReducer(AppReducer, initialState);
 
     useEffect(() => {
         setTimeout(() => {
@@ -38,15 +32,14 @@ const NewsContextProvider = ({children}) => {
     const saveNews = (news) => {
         // console.log('news ', news)
         var tempNews = JSON.parse(localStorage.getItem('saved'))
-        // debugger
         const id = uuidv4()
-        const newsWithId = {id, ...news}
+        const newsWithId = {...news}
         setSaves([...saves, newsWithId])
         localStorage.setItem('saved', JSON.stringify([...saves, newsWithId]))
     }
 
-    const deleteNews = (id) => {
-        const tempNews = saves.filter((news) => news.id !== id)
+    const deleteNews = (url) => {
+        const tempNews = saves.filter((news) => news.url !== url)
         setSaves(tempNews)
         localStorage.setItem('saved', JSON.stringify(tempNews))
     }
@@ -61,10 +54,6 @@ const NewsContextProvider = ({children}) => {
         setArchived(savedNews)
         // setArchived(state.news)
     }
-
-    // useEffect(() => {
-    //     localStorage.setItem('saved', JSON.stringify(saves))
-    // }, [state])
 
     const location = useLocation();
     var url = '';
@@ -104,7 +93,15 @@ const NewsContextProvider = ({children}) => {
     // debugger
     // console.log('data1 ', data) 
     return (
-        <NewsContext.Provider value={{ data, loading, saveNews, archived }}>
+        <NewsContext.Provider value={{
+            data,
+            setData,
+            loading,
+            saveNews,
+            deleteNews,
+            archived,
+            setArchived
+            }}>
             {children}
         </NewsContext.Provider>
     )

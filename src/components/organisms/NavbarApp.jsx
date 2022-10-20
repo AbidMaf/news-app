@@ -5,7 +5,7 @@ import {
     Container
 } from 'react-bootstrap'
 import styled from 'styled-components'
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 
 const ResponsiveNav = styled(Nav)`
     display: flex;
@@ -28,10 +28,10 @@ const NavbarApp = () => {
             <Container fluid>
                 <MobileCollapse className='d-flex justify-content-around'>
                     <ResponsiveNav>
-                        <Nav.Link as={Link} to='/'>Indonesia</Nav.Link>
-                        <Nav.Link as={Link} to="/programming">Programming</Nav.Link>
-                        <Nav.Link as={Link} to="/covid">COVID-19</Nav.Link>
-                        <Nav.Link as={Link} to="/saved">Saved</Nav.Link>
+                        <Nav.Link as={NavLink} to='/' end className={({isActive}) => (isActive ? 'fw-bold text-decoration-underline' : 'fw-normal')}>Indonesia</Nav.Link>
+                        <Nav.Link as={NavLink} to="/programming" className={({isActive}) => (isActive ? 'fw-bold text-decoration-underline' : 'fw-normal')}>Programming</Nav.Link>
+                        <Nav.Link as={NavLink} to="/covid" className={({isActive}) => (isActive ? 'fw-bold text-decoration-underline' : 'fw-normal')}>COVID-19</Nav.Link>
+                        <Nav.Link as={NavLink} to="/saved" className={({isActive}) => (isActive ? 'fw-bold text-decoration-underline' : 'fw-normal')}>Saved</Nav.Link>
                     </ResponsiveNav>
                     <Search />
                 </MobileCollapse>
