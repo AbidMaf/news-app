@@ -4,14 +4,12 @@ import { useLocation } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 
-export const NewsContext = createContext(null);
 
-const NewsContextProvider = ({children}) => {
+const useNews = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchParams] = useSearchParams();
     const [saves, setSaves] = useState([])
-    const [archived ,setArchived] = useState([])
 
     useEffect(() => {
         setTimeout(() => {
@@ -28,6 +26,20 @@ const NewsContextProvider = ({children}) => {
         }
     }, [])
 
+    const location = useLocation();
+        var url = '';
+        if(location.pathname === '/programming'){
+            url = 'https://newsapi.org/v2/everything?q=programming+AND+code+OR+developer&searchin=title&apiKey=6c8c55f07ec642d7b968deb80f117e24';
+        } else if(location.pathname === '/covid'){
+            url = 'https://newsapi.org/v2/everything?q=covid-19&searchin=title&sortBy=publishedAt&apiKey=6c8c55f07ec642d7b968deb80f117e24';
+        } else if(location.pathname === '/home' || location.pathname === '/'){
+            url = 'https://newsapi.org/v2/top-headlines?country=id&apiKey=6c8c55f07ec642d7b968deb80f117e24'
+        } else if(location.pathname === '/search'){
+            const keyword = searchParams.get('query');
+            url = `https://newsapi.org/v2/everything?q=${keyword}&apiKey=6c8c55f07ec642d7b968deb80f117e24`
+        }
+
+
     // console.log('saves ',saves)
     const saveNews = (news) => {
         // console.log('news ', news)
@@ -36,6 +48,7 @@ const NewsContextProvider = ({children}) => {
         const newsWithId = {...news}
         setSaves([...saves, newsWithId])
         localStorage.setItem('saved', JSON.stringify([...saves, newsWithId]))
+        // fetchNews()
     }
 
     const deleteNews = (url) => {
@@ -47,27 +60,15 @@ const NewsContextProvider = ({children}) => {
     const fetchSaved = () => {
         // setData(state.news)
         setData(savedNews)
-        setLoading(false)
+        // setLoading(false)
     }
 
     const archivedNews = () => {
-        setArchived(savedNews)
+        setSaves(savedNews)
         // setArchived(state.news)
     }
 
-    const location = useLocation();
-    var url = '';
-    if(location.pathname === '/programming'){
-        url = 'https://newsapi.org/v2/everything?q=programming+AND+code+OR+developer&searchin=title&apiKey=6c8c55f07ec642d7b968deb80f117e24';
-    } else if(location.pathname === '/covid'){
-        url = 'https://newsapi.org/v2/everything?q=covid-19&searchin=title&sortBy=publishedAt&apiKey=6c8c55f07ec642d7b968deb80f117e24';
-    } else if(location.pathname === '/home' || location.pathname === '/'){
-        url = 'https://newsapi.org/v2/top-headlines?country=id&apiKey=6c8c55f07ec642d7b968deb80f117e24'
-    } else if(location.pathname === '/search'){
-        const keyword = searchParams.get('query');
-        url = `https://newsapi.org/v2/everything?q=${keyword}&apiKey=6c8c55f07ec642d7b968deb80f117e24`
-    }
-
+    
     const fetchNews = async () => {
         if (!data) return
         try {
@@ -92,19 +93,13 @@ const NewsContextProvider = ({children}) => {
      
     // debugger
     // console.log('data1 ', data) 
-    return (
-        <NewsContext.Provider value={{
-            data,
-            setData,
-            loading,
-            saveNews,
-            deleteNews,
-            archived,
-            setArchived
-            }}>
-            {children}
-        </NewsContext.Provider>
-    )
+    return {data,
+        setData,
+        loading,
+        saveNews,
+        deleteNews,
+        saves,
+        setSaves}
 }
 
-export default NewsContextProvider
+export default useNews

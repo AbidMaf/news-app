@@ -5,7 +5,6 @@ import {
     Row,
     Col
 } from 'react-bootstrap';
-import NewsContextProvider, {NewsURL} from '../../context/NewsContext';
 const PageTitle = styled.h1`
     text-align: center;
     margin: 1.5rem 0;
@@ -16,10 +15,8 @@ const Covid = () => {
         <Container>
             <PageTitle>Covid-19</PageTitle>
             <Row className='g-4'>
-                <NewsContextProvider>
-                    <CarouselHighlight />
-                    <NewsCard/>
-                </NewsContextProvider>
+                <CarouselHighlight />
+                <NewsCard/>
             </Row>
         </Container>
     )

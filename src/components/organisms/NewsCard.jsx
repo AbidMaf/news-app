@@ -7,7 +7,7 @@ import {
 } from 'react-bootstrap';
 import styled from 'styled-components';
 import React, {useState, useEffect, useContext, memo} from 'react';
-import { NewsContext } from '../../context/NewsContext';
+import useNews from '../../context/NewsContext';
 import { FiBookmark } from 'react-icons/fi';
 
 const ThumbnailOverlay = styled.div`
@@ -30,14 +30,29 @@ const SaveButton = styled(Button)`
 `
 
 const NewsCard = () => {
-    var [loading, setLoading] = useState(true);
-    var {data, setData, loading, saveNews, deleteNews, archived, setArchived} = useContext(NewsContext);
+    // var [loading, setLoading] = useState(true);
+    var {data, setData, loading, saves, setSaves} = useNews();
     const [isSavedBtn, setIsSavedBtn] = useState(true);
+
+    const saveNews = (news) => {
+        // console.log('news ', news)
+        var tempNews = JSON.parse(localStorage.getItem('saved'))
+        const newsWithId = {...news}
+        setSaves([...saves, newsWithId])
+        localStorage.setItem('saved', JSON.stringify([...saves, newsWithId]))
+        // fetchNews()
+    }
+
+    const deleteNews = (url) => {
+        const tempNews = saves.filter((news) => news.url !== url)
+        setSaves(tempNews)
+        localStorage.setItem('saved', JSON.stringify(tempNews))
+    }
 
     const checkIsSaved = (key) => {
         var isSaved = false;
-        if(archived != null){
-            archived.filter((val) => {
+        if(saves != null){
+            saves.filter((val) => {
                 if(key.url === val.url) {
                     isSaved = true
                 }
@@ -49,7 +64,7 @@ const NewsCard = () => {
     // console.log(data)
 
     const changeButtonVariant = (e, isSaved, id) => {
-        e.preventDefault();
+        // e.preventDefault();
         if(isSaved) {
             document.getElementById(id).classList.remove('btn-outline-light')
             document.getElementById(id).classList.add('btn-light')
@@ -63,7 +78,7 @@ const NewsCard = () => {
         <>
             {!loading ? (
                 data != null && data != [] ? (data.map((item, index) => (
-                <Col sm={4} xs={1}>
+                <Col xl={4}>
                 {/* <h2>{data.length}</h2> */}
                     <Card key={index} className="shadow-sm rounded mb-3">
                         <ThumbnailOverlay className='position-absolute top-0 end-0 w-25 h-25 z-0'></ThumbnailOverlay>
@@ -73,12 +88,12 @@ const NewsCard = () => {
                             // console.log('title',item.title)
                             if(checkIsSaved(item)) {
                                 deleteNews(item.url)
-                                setArchived(JSON.parse(localStorage.getItem('saved')))
+                                setSaves(JSON.parse(localStorage.getItem('saved')))
                                 console.log('deleted')
                                 changeButtonVariant(e, false, 'saveBtn' + index)
                             } else { 
                                 saveNews(item)
-                                setArchived(JSON.parse(localStorage.getItem('saved')))
+                                setSaves(JSON.parse(localStorage.getItem('saved')))
                                 console.log('added')
                                 changeButtonVariant(e, true, 'saveBtn' + index)
                             }

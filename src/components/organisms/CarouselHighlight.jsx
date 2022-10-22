@@ -3,7 +3,7 @@ import {
     Figure
 } from 'react-bootstrap'
 import React, {useState, useEffect, useContext} from 'react'
-import { NewsContext } from '../../context/NewsContext';
+import useNews from '../../context/NewsContext';
 import styled from 'styled-components';
 
 const NewsImage = styled.img`
@@ -27,19 +27,19 @@ const StyledCaption = styled(Carousel.Caption)`
 
 const CarouselHighlight = () => {
     var [loading, setLoading] = useState(true);
-    var {data, loading} = useContext(NewsContext);
+    var {data, loading} = useNews();
 
     return (
         <>
             {!loading ? (
-                <Carousel fade> 
+                <Carousel fade className='vw-100'> 
                     {data.splice(1, 3).map((item, index) => (
                         <Carousel.Item key={index}>
                             <NewsImage
-                            className="d-block w-100"
+                            className="d-block w-100 rounded shadow-sm"
                             src={!item.urlToImage ? 'https://marketingapi.planar.com/media/zlml1rmd/tv-markiza-2.jpg?watermark=PHOTO%20COURTESY%20OF%20PLANAR.%20ALL%20RIGHTS%20RESERVED%20BY%20COPYRIGHT%20OWNER&color=fff&fontsize=12&textposition=5,1260&dropshadow=true&fontfamily=arial&quality=80' : item.urlToImage}
                             />
-                            <StyledCaption>
+                            <StyledCaption className="rounded">
                                 <a href={item.url} target='_blank' style={{ textDecoration: 'none', color: 'white' }}>
                                     <h3>{item.title}</h3>
                                     <p>{item.description}</p>

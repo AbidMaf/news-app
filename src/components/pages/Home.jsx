@@ -5,7 +5,7 @@ import {
     Row,
     Col
 } from 'react-bootstrap';
-import NewsContextProvider, {NewsURL} from '../../context/NewsContext';
+// import NewsContextProvider, {NewsURL} from '../../context/NewsContext';
 import {useEffect, useState, useContext} from 'react';
 
 const PageTitle = styled.h1`
@@ -19,10 +19,8 @@ const Home = () => {
         <Container>
             <PageTitle>Seputar Indonesia</PageTitle>
             <Row className='g-4'>
-                <NewsContextProvider>
-                    <CarouselHighlight />
-                    <NewsCard/>
-                </NewsContextProvider>
+                <CarouselHighlight />
+                <NewsCard/>
             </Row>
         </Container>
     )

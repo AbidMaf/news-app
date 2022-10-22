@@ -5,7 +5,7 @@ import {
     Col
 } from 'react-bootstrap';
 import {NewsCard} from '../organisms';
-import NewsContextProvider from '../../context/NewsContext';
+// import NewsContextProvider from '../../context/NewsContext';
 import { useSearchParams } from "react-router-dom";
 import styled from 'styled-components';
 
@@ -21,9 +21,7 @@ const SearchPage = () => {
         <Container>
         <PageTitle>Menampilkan hasil pencarian dari <b>"{ searchParams.get('query') }"</b></PageTitle>
             <Row className='g-4'>
-                <NewsContextProvider>
-                    <NewsCard/>
-                </NewsContextProvider>
+                <NewsCard/>
             </Row>
         </Container>
     )
